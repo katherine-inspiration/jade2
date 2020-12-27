@@ -3,16 +3,47 @@ import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 
+import static java.lang.Integer.parseInt;
+
 public class ListenBehaviour extends CyclicBehaviour {
+    HelloAgent agent;
+
+    ListenBehaviour(HelloAgent agent){
+        super();
+        this.agent = agent;
+    }
+
+    Integer [] neededMessages = {
+            3,
+            0,
+            2,
+            1,
+            2,
+            0,
+            0,
+            2,
+            0,
+            0,
+            1,
+            1,
+            0
+    };
+
     @Override
     public void action() {
         ACLMessage msg = getAgent().receive();
+        if (agent.getReceivedMessages() == neededMessages[agent.id]){
+
+        }
         if (msg != null){
+            agent.addMessage();
             String msgContent = msg.getContent();
-            System.out.println(msgContent);
+            System.out.println("Agent #" + agent.id + " got the message " + msgContent +
+                    " Agent #" + msg.getSender().getLocalName());
+            agent.setNumber(agent.getNumber() + parseInt(msgContent));
         }
         else{
-            block();
+
         }
     }
 }
