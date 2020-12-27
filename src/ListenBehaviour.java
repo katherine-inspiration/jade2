@@ -31,19 +31,20 @@ public class ListenBehaviour extends CyclicBehaviour {
 
     @Override
     public void action() {
-        ACLMessage msg = getAgent().receive();
-        if (agent.getReceivedMessages() == neededMessages[agent.id]){
 
-        }
-        if (msg != null){
-            agent.addMessage();
-            String msgContent = msg.getContent();
-            System.out.println("Agent #" + agent.id + " got the message " + msgContent +
-                    " Agent #" + msg.getSender().getLocalName());
-            agent.setNumber(agent.getNumber() + parseInt(msgContent));
+        if (agent.getReceivedMessages() == neededMessages[parseInt(agent.getLocalName())]){
+            agent.canSend = true;
+            block();
         }
         else{
-
+            ACLMessage msg = getAgent().receive();
+            if (msg != null){
+                agent.addMessage();
+                String msgContent = msg.getContent();
+//                System.out.println("Agent #" + agent.getLocalName() + " got the message " + msgContent +
+//                        " Agent #" + msg.getSender().getLocalName());
+                agent.setNumber(agent.getNumber() + parseInt(msgContent));
+            }
         }
     }
 }

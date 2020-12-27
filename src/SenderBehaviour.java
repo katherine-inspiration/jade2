@@ -3,6 +3,8 @@ import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 
+import static java.lang.Integer.parseInt;
+
 public class SenderBehaviour extends CyclicBehaviour {
 
     HelloAgent agent;
@@ -20,16 +22,21 @@ public class SenderBehaviour extends CyclicBehaviour {
             for (int j = 0; j < agentsCount; j++){
                 if (i == 0){
                     if (j == 1 || j == 2 || j == 7){
-                        edges[i][j] = 4;
+                        edges[i][j] = 1;
                     }
                 }
                 else if (i == 2){
                     if (j == 3 || j == 11){
-                        edges[i][j] = 3;
+                        edges[i][j] = 1;
+                    }
+                }
+                else if(i == 7){
+                    if (j == 6 || j == 10){
+                        edges[i][j] = 1;
                     }
                 }
                 else if (i == 3 && j == 4 || i == 10 && j == 12 || i == 11 && j == 9){
-                    edges[i][j] = 2;
+                    edges[i][j] = 1;
                 }
                 else if (i == 4){
                     if (j == 5 || j == 8){
@@ -47,25 +54,17 @@ public class SenderBehaviour extends CyclicBehaviour {
 
     int[][] edges = getEdges();
 
-    Integer finishedStep = 0;
-
-
     @Override
     public void action() {
-        if (agent.getStep() == 5){
-            System.out.println("The last step #" + getAgent().getAID().getLocalName());
-            System.out.println("Agent #" + getAgent().getAID().getLocalName() + ", number is " + agent.getNumber());
-            block();
-        }
-        else if (agent.getStep() > 5 || agent.getStep() == finishedStep){
-            //block();
-        }
-        else{
-            System.out.println("Agent #" + getAgent().getAID().getLocalName() + ", number is " + agent.getNumber());
+        if (agent.canSend){
+            if (parseInt(agent.getLocalName()) == 0){
+                System.out.println("Answer to the center: " + agent.getNumber() * 1.0 / agentsCount);
+                block();
+            }
             ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-            int senderId = Integer.parseInt(getAgent().getAID().getLocalName());
+            int senderId = parseInt(getAgent().getAID().getLocalName());
             for(int i = 0; i < agentsCount; i++){
-                if (edges[i][senderId] == agent.getStep()){
+                if (edges[i][senderId] > 0){
                     Integer receiverID = i;
                     AID receiver = new AID(receiverID.toString(), AID.ISLOCALNAME);
                     msg.setContent(agent.getNumber().toString());
@@ -73,10 +72,7 @@ public class SenderBehaviour extends CyclicBehaviour {
                 }
             }
             agent.send(msg);
-            finishedStep = finishedStep + 1;
-
+            block();
         }
-
     }
-
 }

@@ -6,7 +6,6 @@ public class HelloAgent extends Agent {
 
     private Integer number;
     private Integer step = 1;
-    public final Integer id = parseInt(getAID().getLocalName());
 
     public boolean canSend = false;
 
@@ -31,7 +30,7 @@ public class HelloAgent extends Agent {
         receivedMessages += 1;
     }
 
-    public void resetRecievedMessages(){
+    public void resetReceivedMessages(){
         receivedMessages = 0;
     }
 
@@ -43,6 +42,7 @@ public class HelloAgent extends Agent {
     protected void setup(){
 
         setNumber(20 + (int)Math.round(Math.random() * 20));
+        System.out.println("Agent #" + getLocalName() + ", number is " + getNumber());
 
         addBehaviour(new ListenBehaviour(this));
         addBehaviour(new SenderBehaviour(this));
