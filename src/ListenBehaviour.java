@@ -11,26 +11,12 @@ public class ListenBehaviour extends CyclicBehaviour {
         this.agent = agent;
     }
 
-    Integer [] neededMessages = {
-            3,
-            0,
-            2,
-            1,
-            2,
-            0,
-            0,
-            2,
-            0,
-            0,
-            1,
-            1,
-            0
-    };
+
 
     @Override
     public void action() {
 
-        if (agent.getReceivedMessages() == neededMessages[parseInt(agent.getLocalName())]){
+        if (agent.getReceivedMessages() == agent.getNeededMessages()){
             agent.canSend = true;
             block();
         }
@@ -40,6 +26,9 @@ public class ListenBehaviour extends CyclicBehaviour {
                 agent.addMessage();
                 String msgContent = msg.getContent();
                 agent.setNumber(agent.getNumber() + parseInt(msgContent));
+
+//                System.out.println("Agent #" + agent.getLocalName() + " got the message " + msgContent +
+//                        " Agent #" + msg.getSender().getLocalName());
             }
         }
     }
