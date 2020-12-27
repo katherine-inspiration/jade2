@@ -1,5 +1,3 @@
-import jade.core.AID;
-import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 
@@ -41,8 +39,6 @@ public class ListenBehaviour extends CyclicBehaviour {
             if (msg != null){
                 agent.addMessage();
                 String msgContent = msg.getContent();
-//                System.out.println("Agent #" + agent.getLocalName() + " got the message " + msgContent +
-//                        " Agent #" + msg.getSender().getLocalName());
                 agent.setNumber(agent.getNumber() + parseInt(msgContent));
             }
         }
