@@ -16,42 +16,18 @@ public class ListenerBehaviour extends CyclicBehaviour {
     @Override
     public void action() {
 
-
         ACLMessage msg = getAgent().receive();
         if (msg != null) {
-            agent.addMessage();
             String msgContent = msg.getContent();
-            agent.setNumber((agent.getNumber() + parseDouble(msgContent)) / 2);
+            Double msgNumber = parseDouble(msgContent);
 
+//            System.out.println(agent.getNumber() +" " + msgNumber + " " + (agent.getNumber() + msgNumber) / 2);
+            agent.setNumber((agent.getNumber() + msgNumber) / 2);
 
-                System.out.println("Agent #" + agent.getLocalName() + " got the message " + msgContent +
-                        " Agent #" + msg.getSender().getLocalName());
+            System.out.println("Agent #" + agent.getLocalName() + " got the message " + msgContent +
+                    " from Agent #" + msg.getSender().getLocalName());
 
         }
-        else{
-            if (agent.getSentMessages() == 2 ){
-                block();
-            }
-            else{
-                ACLMessage outMsg = new ACLMessage(ACLMessage.INFORM);
-                outMsg.setContent(agent.getNumber().toString());
-                for (int i = 0; i < agent.getEdges().length; i++) {
-                    if (agent.getEdges()[i] > 0) {
-                        Integer randomEdge = 1 + (int)(Math.random() * agent.getEdges()[i]);
-                        if (randomEdge == 1){
-                            Integer receiverID = i;
-                            AID receiver = new AID(receiverID.toString(), AID.ISLOCALNAME);
-                            outMsg.addReceiver(receiver);
-                        }
-                    }
-                }
-
-                agent.send(outMsg);
-                agent.addSentMessage();
-
-            }
-        }
-
 
     }
 }

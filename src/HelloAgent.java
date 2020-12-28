@@ -5,7 +5,6 @@ public class HelloAgent extends Agent {
 
     protected Double number;
     protected int[] edges;
-    protected Integer receivedMessages = 0;
     protected Integer sentMessages = 0;
 
     public void setNumber(Double number) {
@@ -20,20 +19,12 @@ public class HelloAgent extends Agent {
         return edges;
     }
 
-    public void addMessage() {
-        receivedMessages += 1;
-    }
-
     public void addSentMessage(){
         sentMessages += 1;
     }
 
     public Integer getSentMessages() {
         return sentMessages;
-    }
-
-    public Integer getReceivedMessages() {
-        return receivedMessages;
     }
 
     @Override
@@ -45,8 +36,10 @@ public class HelloAgent extends Agent {
 
         System.out.println("Agent #" + getLocalName() + ", number is " + getNumber());
 
+        Integer tickTimeout = 300;
+
         addBehaviour(new ListenerBehaviour(this));
-        addBehaviour(new SenderBehaviour(this));
+        addBehaviour(new SenderBehaviour(this, tickTimeout));
 
     }
 }
