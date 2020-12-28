@@ -3,23 +3,16 @@ import jade.core.Agent;
 
 public class HelloAgent extends Agent {
 
-    Integer agentsCount;
-    protected Integer number;
+    protected Double number;
     protected int[] edges;
-    public boolean canSend = false;
-    protected int neededMessages;
     protected Integer receivedMessages = 0;
+    protected Integer sentMessages = 0;
 
-
-    public int getNeededMessages() {
-        return neededMessages;
-    }
-
-    public void setNumber(Integer number) {
+    public void setNumber(Double number) {
         this.number = number;
     }
 
-    public Integer getNumber() {
+    public Double getNumber() {
         return this.number;
     }
 
@@ -31,6 +24,14 @@ public class HelloAgent extends Agent {
         receivedMessages += 1;
     }
 
+    public void addSentMessage(){
+        sentMessages += 1;
+    }
+
+    public Integer getSentMessages() {
+        return sentMessages;
+    }
+
     public Integer getReceivedMessages() {
         return receivedMessages;
     }
@@ -38,14 +39,14 @@ public class HelloAgent extends Agent {
     @Override
     protected void setup() {
 
-        edges = (int[])getArguments()[1];
-        setNumber((int)getArguments()[2]);
-        neededMessages = (int)getArguments()[3];
+        edges = (int[])getArguments()[0];
+        setNumber((double)getArguments()[1]);
 
 
         System.out.println("Agent #" + getLocalName() + ", number is " + getNumber());
 
-        addBehaviour(new ListenBehaviour(this));
+        addBehaviour(new ListenerBehaviour(this));
+        addBehaviour(new SenderBehaviour(this));
 
     }
 }
