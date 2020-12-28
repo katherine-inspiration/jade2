@@ -38,7 +38,6 @@ public class HelloAgent extends Agent {
     @Override
     protected void setup() {
 
-        agentsCount = 0;
         edges = (int[])getArguments()[1];
         setNumber((int)getArguments()[2]);
         neededMessages = (int)getArguments()[3];
@@ -47,7 +46,6 @@ public class HelloAgent extends Agent {
         System.out.println("Agent #" + getLocalName() + ", number is " + getNumber());
 
         addBehaviour(new ListenBehaviour(this));
-        addBehaviour(new SenderBehaviour(this));
 
     }
 }
