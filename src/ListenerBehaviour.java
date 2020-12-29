@@ -22,7 +22,7 @@ public class ListenerBehaviour extends CyclicBehaviour {
             Double msgNumber = parseDouble(msgContent);
 
 //            System.out.println(agent.getNumber() +" " + msgNumber + " " + (agent.getNumber() + msgNumber) / 2);
-            agent.setNumber((agent.getNumber() + msgNumber) / 2);
+            agent.setNumber(agent.getNumber() +(msgNumber - agent.getNumber()) * 0.2);
 
             System.out.println("Agent #" + agent.getLocalName() + " got the message " + msgContent +
                     " from Agent #" + msg.getSender().getLocalName());
